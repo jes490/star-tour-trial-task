@@ -1,9 +1,9 @@
-<task-result :result="result" inline-template v-cloak>
+<task-result :result="result" inline-template>
     <div class="card">
 
         <!-- URL HEADER -->
         <header class="card-header">
-            <a class="card-header-title" :class="{ 'has-text-danger': error() }" :href="result.url" target="_blank">
+            <a class="card-header-title" :class="{ 'has-text-danger': error(), 'has-text-success': !error() }" :href="result.url" target="_blank">
                 @{{ result.url }}
             </a>
         </header>
@@ -13,7 +13,7 @@
             <!-- RESULTS -->
             <div class="content" v-if="success()">
                 <p><strong>Results:</strong></p>
-                <p class="content" v-if="success() && ifResults()">
+                <p class="content" v-if="success() && !ifResults()">
                     No results.
                 </p>
                 <ul v-for="result in result.results">
@@ -40,7 +40,7 @@
                 <p><strong>Constraints:</strong></p>
                 <ul>
                     <li v-for="constraint in result.constraints">
-                        <em class="has-text-warning">@{{ constraint.constraint }}</em>
+                        <em class="has-text-info">@{{ constraint.constraint }}</em>
                     </li>
                 </ul>
             </div>

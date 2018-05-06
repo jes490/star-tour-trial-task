@@ -18,6 +18,6 @@ To have composer automatically install PhantomJS binary you must have bz-2 php e
 
 In case you don't have it enabled you can download PhantomJS binary manually and place it to `vendor/bin` folder.
 
-#TESTING
+# TESTING
 Run `phpunit` to start feature testing.
 

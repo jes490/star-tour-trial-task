@@ -42532,6 +42532,7 @@ var toastSettings = {
         return {
             text: '',
             loading: false,
+            completed: false,
             results: []
         };
     },
@@ -42555,26 +42556,27 @@ var toastSettings = {
                                 results = _context.sent;
 
                                 this.loading = false;
+                                this.completed = true;
                                 toast.success(Object.assign({ title: 'Success!', message: 'Parsing complete!' }, toastSettings));
                                 this.results = results.data.data;
                                 //console.dir(parsed);
-                                _context.next = 15;
+                                _context.next = 16;
                                 break;
 
-                            case 11:
-                                _context.prev = 11;
+                            case 12:
+                                _context.prev = 12;
                                 _context.t0 = _context['catch'](0);
 
                                 this.loading = false;
                                 toast.error(Object.assign({ title: 'Error!', message: _context.t0.message }, toastSettings));
                                 //console.dir(error);
 
-                            case 15:
+                            case 16:
                             case 'end':
                                 return _context.stop();
                         }
                     }
-                }, _callee, this, [[0, 11]]);
+                }, _callee, this, [[0, 12]]);
             }));
 
             function post() {

@@ -15901,7 +15901,11 @@ label.panel-block:hover {
   font-family: 'Exo 2', sans-serif;
 }
 
-[v-cloak] {
+[v-cloak] > * {
   display: none;
+}
+
+[v-cloak]::before {
+  content: 'Loading...';
 }
 

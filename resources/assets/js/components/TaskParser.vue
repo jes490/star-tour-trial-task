@@ -18,6 +18,7 @@
             return {
                 text: '',
                 loading: false,
+                completed: false,
                 results: [],
             }
         },
@@ -28,6 +29,7 @@
                     this.results = [];
                     let results = await axios.post('/api/parse', { text: this.text });
                     this.loading = false;
+                    this.completed = true;
                     toast.success(Object.assign({ title: 'Success!', message: 'Parsing complete!'}, toastSettings));
                     this.results = results.data.data;
                     //console.dir(parsed);
