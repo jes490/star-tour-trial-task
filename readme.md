@@ -20,3 +20,4 @@ In case you don't have it enabled you can download PhantomJS binary manually and
 
 #TESTING
 Run `phpunit` to start feature testing.
+
