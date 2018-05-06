@@ -1,0 +1,3 @@
+
+            <i>inline style should be deleted</i>
+        

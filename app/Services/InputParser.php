@@ -17,24 +17,24 @@ class InputParser
      * @var string
      */
 
-    static $urls = '/(https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b(?:[-a-zA-Z0-9@:%_\+.~#?&\/\/=]*))+.*?(?=class="[^"]+"|id="[^"]+"|$)/m';
+    static $urls = '/(https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b(?:[-a-zA-Z0-9@:%_\+.~#?&\/\/=]*))+.*?(?=class="[^"]+"|id="[^"]+"|$)/s';
     /**
      * Constraint block pattern.
      * @var string
      */
-    static $constraints = '/((?:class|id)="[^"]+").*?(?=https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b(?:[-a-zA-Z0-9@:%_\+.~#?&\/\/=]*)|$)/m';
+    static $constraints = '/((?:class|id)="[^"]+").*?(?=https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b(?:[-a-zA-Z0-9@:%_\+.~#?&\/\/=]*)|$)/s';
 
     /**
      * Url pattern.
      * @var string
      */
-    static $url = '/(https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b(?:[-a-zA-Z0-9@:%_\+.~#?&\/\/=]*))/m';
+    static $url = '/(https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b(?:[-a-zA-Z0-9@:%_\+.~#?&\/\/=]*))/s';
 
     /**
      * Constraint pattern.
      * @var string
      */
-    static $constraint = '/((?:class|id)="[^"]+")/m';
+    static $constraint = '/((?:class|id)="[^"]+")/s';
 
     /**
      * Parses task text.

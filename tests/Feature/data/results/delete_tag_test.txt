@@ -1,0 +1,8 @@
+
+            div tag should be deleted
+            button tag should be deleted
+            form tag should be deleted
+            input tag should be deleted
+            hr tag should be deleted
+            br tag should be deleted
+        

@@ -15,10 +15,6 @@ Route::get('/', function () {
     return view('pages.main');
 });
 
-Route::get('ph', function () {
-
-});
-
 Route::get('example', function () {
     return view('pages.test');
-});
+})->name('test');

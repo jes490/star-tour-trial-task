@@ -16,7 +16,7 @@ class TaskError extends JsonResource
     {
         return [
             'message' => $this->message,
-            'HTTPcode' => $this->HTTPcode,
+            'HTTPCode' => $this->HTTPCode,
         ];
     }
 }

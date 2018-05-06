@@ -13,7 +13,7 @@
             <!-- RESULTS -->
             <div class="content" v-if="success()">
                 <p><strong>Results:</strong></p>
-                <p class="content" v-if="success && ifResults">
+                <p class="content" v-if="success() && ifResults()">
                     No results.
                 </p>
                 <ul v-for="result in result.results">
