@@ -81,7 +81,6 @@ class Parser implements ParserInterface
                 $formattedData[$index]['errors'] = ['message' => $e->getMessage()];
                 continue;
             }
-            
             foreach ($results as $i => $result)
                 $results[$i] = $this->format($result);
             $formattedData[$index]['status'] = 'Success';

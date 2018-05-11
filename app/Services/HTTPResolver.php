@@ -56,6 +56,9 @@ class HTTPResolver
         curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($curl, CURLOPT_FAILONERROR, true);
+        curl_setopt($curl, CURLOPT_ENCODING, '');
+        curl_setopt($curl, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows NT 5.1; U; en; rv:1.8.0) Gecko/20060728 Firefox/1.5.0" );
+        
         $response = curl_exec($curl);
 
         if (($code = curl_getinfo($curl, CURLINFO_HTTP_CODE)) !== 200) {
@@ -66,11 +69,10 @@ class HTTPResolver
             $this->lastException = (new HTTPResolverException('CURL: ' . curl_error($curl), 0, $this->lastException))->setURL($url);
             throw $this->lastException;
         }
-
-
+        
         curl_close($curl);
 
-        return $response;
+        return mb_convert_encoding($response, 'UTF-8', 'windows-1251');
     }
 
     /**

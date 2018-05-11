@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use PHPHtmlParser\Dom;
-use IvoPetkov\HTML5DOMDocument;
 
 /**
  * Remote content parser.
@@ -26,8 +25,8 @@ class OutputParser
         //$query = $this->buildQuery($constraints);
         
         $dom = new Dom;
+       
         $dom->load(mb_convert_encoding($text, 'HTML-ENTITIES', 'UTF-8'));
- 
         foreach ($constraints as $constraint)
             $dom = $dom->find($this->prepareSelector($constraint));
         
@@ -36,7 +35,7 @@ class OutputParser
         if (count ($constraints) > 0)
         {
             foreach ($dom as $element)
-                $results[] = html_entity_decode($element->innerHTML);
+                $results[] = html_entity_decode($element);
         }
         else
         {
