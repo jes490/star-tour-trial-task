@@ -52,7 +52,7 @@ class OutputParser
         //libxml_use_internal_errors(true);
         $tidy = tidy_parse_string($text, ['clean' => true, 'output-xhtml' => true, 'show-body-only' => true, 'wrap' => 0], 'UTF8');
         $tidy->cleanRepair();
-        $dom->loadHTML( (string) $text);
+        $dom->loadHTML( (string) $tidy);
         
         return $dom;
     }
