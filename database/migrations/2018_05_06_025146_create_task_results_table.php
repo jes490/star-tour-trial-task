@@ -15,7 +15,7 @@ class CreateTaskResultsTable extends Migration
     {
         Schema::create('task_results', function (Blueprint $table) {
             $table->increments('id');
-            $table->text('result');
+            $table->mediumText('result');
             $table->integer('task_request_id')->unsigned();
             $table->foreign('task_request_id')->references('id')->on('task_requests')->onDelete('cascade');
             $table->timestamps();

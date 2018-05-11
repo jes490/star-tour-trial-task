@@ -28,7 +28,7 @@
                     @include('components.result')
                 </div>
             </div>
-            <div v-if="completed && results.length === 0">
+            <div v-if="!loading && completed && results.length === 0">
                 <p class="title"><strong>No URLs have been found.</strong></p>
             </div>
         </div>
