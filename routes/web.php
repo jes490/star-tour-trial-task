@@ -11,6 +11,7 @@
 |
 */
 
+
 Route::get('/', function () {
     return view('pages.main');
 });
@@ -18,3 +19,5 @@ Route::get('/', function () {
 Route::get('example', function () {
     return view('pages.test');
 })->name('test');
+
+

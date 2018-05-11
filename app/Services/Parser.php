@@ -65,7 +65,13 @@ class Parser implements ParserInterface
             $formattedData[$index]['errors'] = [];
 
             try {
-                $remoteContent = $this->urlResolver->resolve($request['url']);
+                $remoteContent = $this->urlResolver->getByCurl($request['url']);
+                $results = $this->oParser->parse($remoteContent, $request['constraints']);
+                
+                if (!$results) {
+                    $remoteContent = $this->urlResolver->getByPhantomJs($request['url']);
+                    $results = $this->oParser->parse($remoteContent, $request['constraints']);
+                }
             } catch (HTTPResolverException $e) {
                 $formattedData[$index]['status'] = 'Error';
                 $formattedData[$index]['errors'] = $this->getHTTPExceptionErrors($e);
@@ -75,9 +81,7 @@ class Parser implements ParserInterface
                 $formattedData[$index]['errors'] = ['message' => $e->getMessage()];
                 continue;
             }
-
-            $results = $this->oParser->parse($remoteContent, $request['constraints']);
-            //return $results;
+            
             foreach ($results as $i => $result)
                 $results[$i] = $this->format($result);
             $formattedData[$index]['status'] = 'Success';

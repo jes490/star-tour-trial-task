@@ -34,7 +34,7 @@ class HTTPResolver
             $response = $this->getByCurl($url);
         } catch (HTTPResolverException $curlException) {
             try {
-                $response = $this->getByPhantomJs($url);
+                $response = $this->getByPhantomJs($url)->getContent();
             } catch (HTTPResolverException $PJSException) {
                 throw $PJSException;
             }
@@ -50,7 +50,7 @@ class HTTPResolver
      * @return string
      * @throws HTTPResolverException
      */
-    protected function getByCurl($url)
+    public function getByCurl($url)
     {
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, $url);
@@ -80,20 +80,40 @@ class HTTPResolver
      * @return string
      * @throws HTTPResolverException
      */
-    protected function getByPhantomJs($url)
+    public function getByPhantomJs($url)
     {
         $client = Client::getInstance();
+        $client->isLazy();
         $client->getEngine()->setPath(base_path('/vendor/bin/phantomjs'));
         $request = $client->getMessageFactory()->createRequest($url, 'get');
+        $request->setTimeout(10000);
+        $request->setDelay(5);
+        $request->addSetting('userAgent', $this->getUserAgent());
         $response = $client->getMessageFactory()->createResponse();
         $client->send($request, $response);
-
+        
+        
         if (($code = $response->getStatus()) !== 200) {
             $this->lastException = (new HTTPResolverException("PhantomJS: cannot get remote content.", 0, $this->lastException))->setUrl($url)->setHTTPCode($code);
             throw $this->lastException;
         }
 
-        return $response;
+        return $response->getContent();
+    }
+
+    /**
+     * Get random user agent. Suggested fix for 408 PhantomJS timeout.
+     * 
+     * @return mixed
+     */
+    protected function getUserAgent()
+    {
+        $chrome_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36';
+        $firefox_agent = 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:54.0) Gecko/20100101 Firefox/54.0';
+        $ie_agent = 'Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko';
+        $edge_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36 Edge/15.15063';
+        
+        return array_rand([$chrome_agent, $firefox_agent, $ie_agent, $edge_agent]);
     }
 }
 

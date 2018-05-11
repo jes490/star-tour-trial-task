@@ -2,6 +2,9 @@
 
 namespace App\Services;
 
+use PHPHtmlParser\Dom;
+use IvoPetkov\HTML5DOMDocument;
+
 /**
  * Remote content parser.
  *
@@ -20,16 +23,20 @@ class OutputParser
      */
     public function parse($text, $constraints)
     {
+        //$query = $this->buildQuery($constraints);
+        
+        $dom = new Dom;
+        $dom->load(mb_convert_encoding($text, 'HTML-ENTITIES', 'UTF-8'));
+ 
+        foreach ($constraints as $constraint)
+            $dom = $dom->find($this->prepareSelector($constraint));
+        
         $results = [];
 
         if (count ($constraints) > 0)
         {
-            $dom = $this->loadDom($text);
-            $nodes = $this->query($dom, $constraints);
-            //return $nodes;
-            foreach ($nodes as $result)
-                $results[] = $this->innerHTML($result);
-
+            foreach ($dom as $element)
+                $results[] = html_entity_decode($element->innerHTML);
         }
         else
         {
@@ -40,70 +47,32 @@ class OutputParser
     }
 
     /**
-     * Load DOM Document from text.
-     *
-     * @param $text
-     * @return \DOMDocument
-     */
-    protected function loadDom($text)
-    {
-        $dom = new \DOMDocument;
-        $dom->preserveWhiteSpace = false;
-        //libxml_use_internal_errors(true);
-        $tidy = tidy_parse_string($text, ['clean' => true, 'output-xhtml' => true, 'show-body-only' => true, 'wrap' => 0], 'UTF8');
-        $tidy->cleanRepair();
-        $dom->loadHTML( (string) $tidy);
-        
-        return $dom;
-    }
-
-    /**
      * Query DOM Document with XPath.
      *
-     * @param $dom
      * @param $constraints
      * @return \DOMNodeList
      */
-    protected function query($dom, $constraints)
-    {
-        $xpath = new \DOMXPath($dom);
-        $query = $this->buildQuery($constraints);
-        $nodes = $xpath->query('//' . $query);
-        //return $query;
-        return $nodes;
-    }
-
-    /**
-     * Build query based on constraints.
-     *
-     * @param $constraints
-     * @return null|string|string[]
-     */
     protected function buildQuery($constraints)
     {
-        $query = implode('/', $constraints);
-        $query = preg_replace('/((?:class|id)="[^"]+")/m', '*[@$1]', $query);
-
-        return $query;
+        $query = [];
+        foreach ($constraints as $constraint)
+            $query[] = $this->prepareSelector($constraint);
+            
+        return implode(' ', $query);
     }
 
     /**
-     * Get inner html from DOM Element.
-     *
-     * @param \DOMElement $element
-     * @return string
+     * Prepare selector
+     * 
+     * @param $constraint
+     * @return null|string|string[]
      */
-    protected function innerHTML(\DOMElement $element)
+    protected function prepareSelector($constraint)
     {
-        $innerHTML = "";
-        $children  = $element->childNodes;
-
-        foreach ($children as $child)
-        {
-            $innerHTML .= $element->ownerDocument->saveHTML($child);
-        }
-
-        return $innerHTML;
+        $constraint = preg_replace('/id="([^"]+)"/', '#${1}', $constraint);
+        $constraint = preg_replace('/class="([^"]+)"/', '.${1}', $constraint);
+        
+        return $constraint;
     }
-
+    
 }

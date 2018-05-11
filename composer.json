@@ -10,7 +10,8 @@
         "jonnyw/php-phantomjs": "4.*",
         "laravel/dusk": "^3.0",
         "laravel/framework": "5.6.*",
-        "laravel/tinker": "^1.0"
+        "laravel/tinker": "^1.0",
+        "thesoftwarefanatics/php-html-parser": "^1.7"
     },
     "require-dev": {
         "filp/whoops": "^2.0",
