@@ -26,7 +26,7 @@ class OutputParser
         {
             $dom = $this->loadDom($text);
             $nodes = $this->query($dom, $constraints);
-
+            //return $nodes;
             foreach ($nodes as $result)
                 $results[] = $this->innerHTML($result);
 
@@ -49,9 +49,11 @@ class OutputParser
     {
         $dom = new \DOMDocument;
         $dom->preserveWhiteSpace = false;
-        libxml_use_internal_errors(true);
-        $dom->loadHTML(mb_convert_encoding($text, 'HTML-ENTITIES', "UTF-8"));
-
+        //libxml_use_internal_errors(true);
+        $tidy = tidy_parse_string($text, ['clean' => true, 'output-xhtml' => true, 'show-body-only' => true, 'wrap' => 0], 'UTF8');
+        $tidy->cleanRepair();
+        $dom->loadHTML( (string) $text);
+        
         return $dom;
     }
 
@@ -67,7 +69,7 @@ class OutputParser
         $xpath = new \DOMXPath($dom);
         $query = $this->buildQuery($constraints);
         $nodes = $xpath->query('//' . $query);
-
+        //return $query;
         return $nodes;
     }
 

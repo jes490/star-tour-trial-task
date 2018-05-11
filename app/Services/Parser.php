@@ -77,6 +77,7 @@ class Parser implements ParserInterface
             }
 
             $results = $this->oParser->parse($remoteContent, $request['constraints']);
+            //return $results;
             foreach ($results as $i => $result)
                 $results[$i] = $this->format($result);
             $formattedData[$index]['status'] = 'Success';
