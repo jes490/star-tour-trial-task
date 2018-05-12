@@ -78,7 +78,7 @@ class Parser implements ParserInterface
                 continue;
             } catch (\Exception $e) {
                 $formattedData[$index]['status'] = 'Error';
-                $formattedData[$index]['errors'] = ['message' => $e->getMessage()];
+                $formattedData[$index]['errors'] = [['message' => $e->getMessage()]];
                 continue;
             }
             foreach ($results as $i => $result)
@@ -86,7 +86,7 @@ class Parser implements ParserInterface
             $formattedData[$index]['status'] = 'Success';
             $formattedData[$index]['results'] = $results;
         }
-
+        
         return new TaskRequestCollection($this->save($formattedData));
     }
 
